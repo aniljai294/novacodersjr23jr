@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Free Trial - NovaCoders Jr.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="booking-form">
+        <h2>Book Your Free Trial</h2>
+        <form id="bookingForm">
+            <div class="form-row">
+                <label for="parentName">Parent Name:</label>
+                <input type="text" id="parentName" name="parentName" required>
+            </div>
+            <div class="form-row">
+                <label for="kidName">Kid Name:</label>
+                <input type="text" id="kidName" name="kidName" required>
+            </div>
+            <div class="form-row">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-row">
+                <label for="mobile">Mobile Number:</label>
+                <input type="tel" id="mobile" name="mobile" required>
+            </div>
+            <div class="form-row">
+                <label for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="">Select Country</option>
+                    <option value="India">India</option>
+                    <option value="USA">USA</option>
+                    <option value="UK">UK</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="state">State:</label>
+                <select id="state" name="state" required>
+                    <option value="">Select State</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="city">City:</label>
+                <select id="city" name="city" required>
+                    <option value="">Select City</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="date">Trial Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-row">
+                <label for="time">Preferred Time:</label>
+                <select id="time" name="time" required>
+                    <option value="">Select Time Slot</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="3:00 PM">3:00 PM</option>
+                    <option value="5:00 PM">5:00 PM</option>
+                    <option value="7:00 PM">7:00 PM</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        // Country, State, and City Data Structure
+        const locationData = {
+            "India": {
+                "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Nashik"],
+                "Karnataka": ["Bengaluru", "Mysuru", "Mangalore", "Hubli", "Belgaum"],
+                "Delhi": ["New Delhi", "Dwarka", "Rohini", "Saket", "Laxmi Nagar"]
+            },
+            "USA": {
+                "California": ["Los Angeles", "San Francisco", "San Diego", "San Jose", "Fresno"],
+                "Texas": ["Houston", "Dallas", "Austin", "San Antonio", "Fort Worth"],
+                "New York": ["New York City", "Buffalo", "Rochester", "Yonkers", "Syracuse"]
+            },
+            "UK": {
+                "England": ["London", "Manchester", "Birmingham", "Leeds", "Liverpool"],
+                "Scotland": ["Edinburgh", "Glasgow", "Aberdeen", "Dundee", "Stirling"],
+                "Wales": ["Cardiff", "Swansea", "Newport", "Bangor", "Wrexham"]
+            },
+            "Canada": {
+                "Ontario": ["Toronto", "Ottawa", "Mississauga", "Brampton", "London"],
+                "British Columbia": ["Vancouver", "Victoria", "Kelowna", "Surrey", "Burnaby"],
+                "Quebec": ["Montreal", "Quebec City", "Laval", "Gatineau", "Longueuil"]
+            },
+            "Australia": {
+                "New South Wales": ["Sydney", "Newcastle", "Wollongong", "Gosford", "Albury"],
+                "Victoria": ["Melbourne", "Geelong", "Ballarat", "Bendigo", "Shepparton"],
+                "Queensland": ["Brisbane", "Gold Coast", "Cairns", "Townsville", "Toowoomba"]
+            }
+        };
+
+        // Elements
+        const countrySelect = document.getElementById('country');
+        const stateSelect = document.getElementById('state');
+        const citySelect = document.getElementById('city');
+
+        // Populate States Based on Selected Country
+        countrySelect.addEventListener('change', () => {
+            const selectedCountry = countrySelect.value;
+            stateSelect.innerHTML = '<option value="">Select State</option>';
+            citySelect.innerHTML = '<option value="">Select City</option>'; // Reset cities
+            if (locationData[selectedCountry]) {
+                Object.keys(locationData[selectedCountry]).forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = state;
+                    stateSelect.appendChild(option);
+                });
+            }
+        });
+
+        // Populate Cities Based on Selected State
+        stateSelect.addEventListener('change', () => {
+            const selectedCountry = countrySelect.value;
+            const selectedState = stateSelect.value;
+            citySelect.innerHTML = '<option value="">Select City</option>';
+            if (locationData[selectedCountry] && locationData[selectedCountry][selectedState]) {
+                locationData[selectedCountry][selectedState].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        });
+
+        // Form Submission
+        const bookingForm = document.getElementById('bookingForm');
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for booking! We will contact you shortly.');
+        });
+    </script>
+</body>
+</html>
